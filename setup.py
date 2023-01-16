@@ -1,9 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="pre_gpumcd",
-    version="1.1.0",
+    name="plotter",
+    version="1.0.0",
     author="grudule",
+    licence="MIT",
     author_email="alexandre.sagona.1@ulaval.ca",
     description="Plotting easily",
     url="https://github.com/grudule/plotter",
