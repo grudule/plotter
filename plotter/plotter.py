@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 class Plotter():
-    def __init__(self,output,title, x_data, y_data,x_interval=None, saving_png = True, font_size = 18,**kwargs):
+    def __init__(self,output,title, x_data, y_data,x_interval=None, saving_png = True, font_size = 18,step_yticks=10,step_xticks=0.2 **kwargs):
         """_summary_
 
         Args:
@@ -16,7 +16,11 @@ class Plotter():
         kwargs : 
             x_axis_title
             y_axis_title
+            step_xticks
+            step_yticks
         """
+        self.step_yticks = step_yticks
+        self.step_xticks = step_xticks
         self.thickness_line = 2
         self.title = title
         self.output = output
@@ -57,6 +61,8 @@ class Plotter():
             plt.xlabel(f'{self.x_axis_title}')
         if hasattr(self, "y_axis_title"):
             plt.ylabel(f'{self.y_axis_title}')
+        plt.xticks(np.arange(self.x_data[0], self.x_data[-1], step=self.step_xticks))
+        plt.yticks(np.arange(self.y_data[0], self.y_data[-1], step=self.step_yticks))
 
             
     
