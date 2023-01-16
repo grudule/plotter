@@ -17,6 +17,7 @@ class Plotter():
             x_axis_title
             y_axis_title
         """
+        self.thickness_line = 2
         self.title = title
         self.output = output
         if x_interval is not None : 
@@ -34,7 +35,6 @@ class Plotter():
     
     def _font_changer(self):
         font = {
-            'family' : 'normal',
             'weight' : 'normal',
             'size'   : self.font_size
             }
@@ -45,7 +45,7 @@ class Plotter():
     def _plotting(self):
         
         self.fig.set_tight_layout(True)
-        plt.plot(self.x_data, self.y_data, figure=self.fig)
+        plt.plot(self.x_data, self.y_data, linewidth=self.thickness_line,figure=self.fig)
         plt.title(self.title)
         self._change_axis()
         if self.saving_png : 
@@ -55,8 +55,10 @@ class Plotter():
     def _change_axis(self):
         if hasattr(self, "x_axis_title"):
             plt.xlabel(f'{self.x_axis_title}')
-        if hasattr(self, "x_axis_title"):
-            plt.xlabel(f'{self.x_axis_title}')
+        if hasattr(self, "y_axis_title"):
+            plt.ylabel(f'{self.y_axis_title}')
+
+            
     
     def _save_png(self):
         number = random.randint(0,100)
