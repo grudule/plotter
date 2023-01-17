@@ -15,6 +15,7 @@ setup(
     packages=find_packages(),
     python_requires=">=3.8",
     install_requires=[
-        "numpy~=1.23.0"
+        "numpy~=1.23.0",
+        "matplotlib~=3.6.3"
     ]
 )
