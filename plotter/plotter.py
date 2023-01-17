@@ -5,7 +5,7 @@ import random
 
 class Plotter():
     def __init__(self, output_path, title, x_data, y_data, saving_png=True,name_file=None, font_size=18,**kwargs):
-        """_summary_
+        """Class Plotter automaticaly plot and save the png. Most of commun options are customizable (font size, title, axis name, etc...). 
 
         Args:
             output_path (str): ouput path where you want to save file
@@ -17,11 +17,11 @@ class Plotter():
             font_size (int, optional):size for all fonts (axis, title). Defaults to 18.
 
         kwargs : 
-            x_axis_title (str)
-            y_axis_title (str)
-            step_xticks (float)
-            step_yticks (flaot)
-            thickness_line (float)
+            x_axis_title (str): x axis title
+            y_axis_title (str): y axis title
+            step_xticks (float): step in x ticks 
+            step_yticks (flaot): step in y ticks 
+            thickness_line (float): thickness of the line
             fig_size (tuple) : (length, width). Defaults (10,8)
         """
 
