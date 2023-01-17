@@ -3,37 +3,39 @@ import matplotlib.pyplot as plt
 import random
 
 class Plotter():
-    def __init__(self,output,title, x_data, y_data,x_interval=None, saving_png = True, font_size = 18,step_yticks=10,step_xticks=0.2 ,**kwargs):
+    def __init__(self,output_path,title, x_data, y_data,x_interval=None, saving_png = True, font_size = 18,**kwargs):
         """_summary_
 
         Args:
-            output (_type_): ouput path where you want to save file
+            output_path (str): ouput path where you want to save file
             x_data (array): data you want to plot in x-axis
             y_data (dict): dict with string keys corresponding to the name of the data and values are array/list of data
             x_interval (tuple): tuple of (x_min, x_max, sample number)
             saving_png (bool, optional): if you want to save png. Defaults to True.
             font_size (int): size of font you want
         kwargs : 
-            x_axis_title
-            y_axis_title
-            step_xticks
-            step_yticks
-            thickness_line
+            x_axis_title (str)
+            y_axis_title (str)
+            step_xticks (float)
+            step_yticks (flaot)
+            thickness_line (float)
+            fig_size (tuple) : format (length, width)
         """
-        self.step_yticks = step_yticks
-        self.step_xticks = step_xticks
         self.title = title
-        self.output = output
+        self.output_path = output_path
         if x_interval is not None : 
             self.x_data = np.linspace(x_interval[0], x_interval[1], x_interval[2])
         else : 
             self.x_data = x_data
         self.y_data = y_data
-        self.fig, self.ax = plt.subplots(1, 1)
         self.font_size = font_size
         self.saving_png = saving_png
         for key in kwargs.keys():
             self.__setattr__(key, kwargs[key])
+        if hasattr(self, "fig_size"):
+            self.fig, self.ax = plt.subplots(1, 1, figsize=self.fig_size)
+        else:
+            self.fig, self.ax = plt.subplots(1, 1, figsize=(10,8))
         self._font_changer()
         self._plotting()
     
@@ -65,8 +67,10 @@ class Plotter():
         if line > 1:
             plt.legend()
         plt.title(self.title)
-        plt.xticks(np.arange(np.amin(self.x_data), np.amax(self.x_data)+0.05*np.amax(self.x_data), step=self.step_xticks))
-        plt.yticks(np.arange(y_min, y_max+0.05*y_max,step=self.step_xticks))
+        if hasattr(self, "step_xticks"):
+            plt.xticks(np.arange(np.amin(self.x_data), np.amax(self.x_data)+0.05*np.amax(self.x_data), step=self.step_xticks))
+        if hasattr(self, "step_yticks"):
+            plt.yticks(np.arange(y_min, y_max+0.05*y_max,step=self.step_yticks))
         plt.grid()
         self._change_axis()
         if self.saving_png : 
@@ -81,4 +85,4 @@ class Plotter():
 
     def _save_png(self):
         number = random.randint(0,100)
-        plt.savefig(self.output + f"graph{number}.pdf", dpi=1600)
+        plt.savefig(self.output_path + f"graph{number}.png", dpi=600)
