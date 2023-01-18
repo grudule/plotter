@@ -4,14 +4,17 @@ import random
 
 
 class Plotter():
-    def __init__(self, output_path, title, x_data, y_data, saving_png=True,name_file=None, title_font_size=18,sub_font_size=16,**kwargs):
+    def __init__(self, output_path, title, x_data, y_data, saving_png=True, name_file=None, title_font_size=18, sub_font_size=16, **kwargs):
         """Class Plotter automaticaly plot and save the png. Most of commun options are customizable (font size, title, axis name, etc...). 
 
         Args:
             output_path (str): ouput path where you want to save file
             title (str): name of your figure
             x_data (array/tuple): data you want to plot in x-axis, array of all x, or a tuple (x_min,x_max,number of element)
-            y_data (dict): dict with string keys corresponding to the name of the data and values are array/list of data
+            y_data (dict): dict with string keys corresponding to a tuple with the name of the data, values are (data[np.array],color[str],type_of_line[str],fill_style[str], thickness_line[float optional]) all values in str.
+            Possible style for plot : https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html
+            Possible markers for scatter : https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers
+            Possible fillstyle : https://matplotlib.org/3.2.2/gallery/lines_bars_and_markers/marker_fillstyle_reference.html
             saving_png (bool, optional): if you want to save png. Defaults to True.
             name_file (bool, optional): name you want to save your file. Defaults to 
             title_font_size (int, optional):size for title font size. Defaults to 18.
@@ -24,8 +27,10 @@ class Plotter():
             step_yticks (flaot): step in y ticks 
             thickness_line (float): thickness of the line
             fig_size (tuple) : (length, width). Defaults (10,8)
+            color (str): type opf color you want your graph (applied on all plots)
         """
-        self.title = title 
+
+        self.title = title
         self.output_path = output_path
         if isinstance(x_data, tuple):
             self.x_data = np.linspace(x_data[0], x_data[1], x_data[2])
@@ -45,14 +50,10 @@ class Plotter():
         for key in kwargs.keys():
             self.__setattr__(key, kwargs[key])
         if hasattr(self, "fig_size"):
-            self.fig, self.ax = plt.subplots(1, 1, figsize=self.fig_size)
+            self.fig, self.ax = plt.subplots(figsize=self.fig_size)
         else:
-            self.fig, self.ax = plt.subplots(1, 1, figsize=(10, 8))
-        self._font_changer()
+            self.fig, self.ax = plt.subplots(figsize=(10, 8))
         self._plotting()
-
-    def _font_changer(self):
-        plt.clf()
 
     def _plotting(self):
 
@@ -61,18 +62,20 @@ class Plotter():
         y_max = 0
         y_min = 0
         for keys, values in self.y_data.items():
-            if hasattr(self, "thickness_line"):
-                plt.plot(self.x_data, values, linewidth=self.thickness_line,
-                         figure=self.fig, label=keys)
-            else:
-                plt.plot(self.x_data, values, figure=self.fig, label=keys)
+            # Verify for thickness_line and plot with the corresponding y_data and parameters 
+            try :
+                    plt.plot(self.x_data, values[0], f"{values[2]}",
+                        figure=self.fig,color=values[1], label=keys, fillstyle=values[3], linewidth=values[4])
+            except Exception:
+                plt.plot(self.x_data, values[0], f"{values[2]}",
+                        figure=self.fig,color=values[1], label=keys, fillstyle=values[3])
             line += 1
-            if y_max < np.amax(values):
-                y_max = np.amax(values)
-            if y_min > np.amin(values):
-                y_min = np.amin(values)
+            if y_max < np.amax(values[0]):
+                y_max = np.amax(values[0])
+            if y_min > np.amin(values[0]):
+                y_min = np.amin(values[0])
         if line > 1:
-            plt.legend()
+            plt.legend(loc='upper left')
         plt.title(self.title, **self.title_font)
         if hasattr(self, "step_xticks"):
             plt.xticks(np.arange(np.amin(self.x_data), np.amax(
@@ -90,6 +93,8 @@ class Plotter():
             plt.xlabel(f'{self.x_axis_title}', **self.sub_font)
         if hasattr(self, "y_axis_title"):
             plt.ylabel(f'{self.y_axis_title}', **self.sub_font)
+        self.ax.tick_params(direction='in', length=6, width=2,
+                            grid_color='b', grid_alpha=0.5)
 
     def _save_png(self):
         if self.name_file is not None:
