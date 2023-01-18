@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="plotter",
-    version="2.0.0",
+    version="2.0.1",
     author="grudule",
     licence="MIT",
     author_email="alexandre.sagona.1@ulaval.ca",
