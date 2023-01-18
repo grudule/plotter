@@ -80,7 +80,6 @@ class Plotter():
         if hasattr(self, "step_yticks"):
             plt.yticks(np.arange(y_min, y_max+0.02 *
                        y_max, step=self.step_yticks))
-        plt.grid()
         self._change_axis()
         if self.saving_png:
             self._save_png()
