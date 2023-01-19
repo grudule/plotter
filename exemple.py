@@ -19,6 +19,6 @@ Plotter("", "Graphique de la loi de Malus", x_data, y_data, x_axis_title="Angle 
 
 # myFile = np.genfromtxt(r"path_to_your_file", delimiter=',')
 # x_data = myFile[:, 0]
-# y_data = {"name_of_data1": (myFile[:, 1],"<color>", "<type_of_line/marker_keep_it_empty_if_line>", "<fillstyle>"), "name_of_data2": (myFile[:, 1],"<color>", "<type_of_line/marker_keep_it_empty_if_line>", "<fillstyle>"),}
+# y_data = {"name_of_data1": (myFile[:, 1],"<color>", "<type_of_line/marker_keep_it_empty_if_line>", "<fillstyle>"), "name_of_data2": (myFile[:, 2],"<color>", "<type_of_line/marker_keep_it_empty_if_line>", "<fillstyle>"),}
 # Plotter(output_path="", title="" ,x_data=x_data, y_data=y_data, name_file="",
 #        x_axis_title="", y_axis_title="")
