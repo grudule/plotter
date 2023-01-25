@@ -1,6 +1,6 @@
 from plotter.plotter import Plotter
 import numpy as np
-
+from scipy.optimize import curve_fit
 
 
 # Possible style for plot : https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html
@@ -8,11 +8,25 @@ import numpy as np
 
 # Possible markers for scatter : https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers
 # Possible fillstyle : https://matplotlib.org/3.2.2/gallery/lines_bars_and_markers/marker_fillstyle_reference.html
+myFile = np.genfromtxt(
+    r"C:\Users\Alexandre\Desktop\alex library python\polarisation_reflexion.csv", delimiter=',')
+x1 = np.linspace(10*np.pi/180, 75*np.pi/180, 100)
+x2 = myFile[:, 0]*np.pi/180
 
-x_data = np.linspace(0, np.pi, 100)
-y_data = {"valeur intensité": (np.cos(x_data)**2, "black", "", "full")}
-Plotter("", "Graphique de la loi de Malus", x_data, y_data, x_axis_title="Angle relatif (rad)",
-        y_axis_title="Intensité relative", name_file="hallo")
+x_data = {"theorical":x1, 
+          "experimental":x2
+          }
+
+y_data = {"TE mesuré": (myFile[:, 1],"experimental", "black", "o", "full", 12),
+          "TM mesuré": (myFile[:, 2],"experimental", "black", "", "none", 4)
+          }
+
+# numerator_TM = n1*np.sqrt(1-(n1/n2*np.sin(x_data))**2)-n2*np.cos(x_data)
+# denominator_TM = n1*np.sqrt(1-(n1/n2*np.sin(x_data))**2)+n2*np.cos(x_data)
+# y_TM = (numerator_TM / denominator_TM)**2
+
+Plotter("", "", x_data, y_data,
+        x_axis_title="Angle d'incidence [rad]", y_axis_title="Intensité [V]",name_file="graph_lab_polarisation", fig_size=(7,6), sub_font_size=14, step_xticks=0.1,step_yticks=5)
 
 #read Csv file
 # myFile = np.genfromtxt(r"C:\Users\Alexandre\Desktop\alex library python\polarisation_reflexion.csv", delimiter=',')
@@ -21,7 +35,7 @@ Plotter("", "Graphique de la loi de Malus", x_data, y_data, x_axis_title="Angle 
 # cos_thetha2 = np.sqrt(1-(np.sin(x)/1.5)**2)
 # y_TE = ((1*np.cos(x) - 1.5 * cos_thetha2) / (1.5 * cos_thetha2 + 1*np.cos(x)))**10
 # y_TM = (cos_thetha2-1.5*np.cos(x))/(1.5*np.cos(x)+cos_thetha2)
-# y_data = {"Onde TE": (myFile[:, 1],"black", "--o", "none"), "Onde TM": (myFile[:, 2], "black", "o", "none"), "Onde TM_th": (y_TM, "", "", "full", 0.3)}
+# y_data = {"Onde TE": (myFile[:, 1]), "Onde TM": (myFile[:, 2], "black", "o", "none"), "Onde TM_th": (y_TM, "", "", "full", 0.3)}
 # Plotter(output_path="", title="" ,x_data=x_data, y_data=y_data, name_file="graph_lab_polarisation",
 #        x_axis_title="Angle [°]", y_axis_title="Intensitée [V]", color="Black", fig_size=(8,6))
 
@@ -29,3 +43,39 @@ Plotter("", "Graphique de la loi de Malus", x_data, y_data, x_axis_title="Angle 
 
 #Plotter(output_path="", title="", x_data=x_data, y_data=y_data, name_file="",
 #        x_axis_title="", y_axis_title="")
+
+#x1 = np.linspace(10*np.pi/180, 75*np.pi/180, 100)
+# x2 = myFile[:, 0]*np.pi/180
+
+# def reflected_intensity_TM(theta1, intensity, n2):
+#     n1 = 1.0
+#     numerator_TM = n1*np.sqrt(1-(n1/n2*np.sin(theta1))**2)-n2*np.cos(theta1)
+#     denominator_TM = n1*np.sqrt(1-(n1/n2*np.sin(theta1))**2)+n2*np.cos(theta1)
+#     y_TM = intensity*(numerator_TM / denominator_TM)**2
+#     return y_TM
+# def reflected_intensity_TE(theta1, intensity, n2):
+#     n1 = 1.0
+#     numerator_TE = n1*np.cos(theta1)-n2*np.sqrt(1-(n1/n2*np.sin(theta1))**2)
+#     denominator_TE = n1*np.cos(theta1)+n2*np.sqrt(1-(n1/n2*np.sin(theta1))**2)
+#     y_TE = intensity*(numerator_TE / denominator_TE)**2
+#     return y_TE
+
+# popt, pcov = curve_fit(reflected_intensity_TE,x2, myFile[:, 1], p0=[100,1.5] )
+# perr = np.sqrt(np.diag(pcov))
+
+# bestInt = popt[0] #intensity
+# best_Index = popt[1] # N2
+# deltaIntensity = perr[0] #incertitude intensité
+# deltaIndex = perr[1]
+# print(best_Index, deltaIndex)
+# y_TE_curved = reflected_intensity_TE(x1, bestInt, best_Index)
+
+# popt, pcov = curve_fit(reflected_intensity_TM,x2, myFile[:, 2], p0=[100,1.5] )
+# perr = np.sqrt(np.diag(pcov))
+
+# bestInt = popt[0] #intensity
+# best_Index = popt[1] # N2
+# deltaIntensity = perr[0] #incertitude intensité
+# deltaIndex = perr[1]
+# print(best_Index, deltaIndex)
+# y_TM_curved = reflected_intensity_TM(x1, bestInt, best_Index)
