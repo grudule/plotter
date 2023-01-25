@@ -17,7 +17,7 @@ x_data = {"theorical":x1,
           "experimental":x2
           }
 
-y_data = {"TE mesuré": (myFile[:, 1],"experimental", "black", "o", "full", 12),
+y_data = {"TE mesuré": (myFile[:, 1],"experimental", "black", "o", "full", 4),
           "TM mesuré": (myFile[:, 2],"experimental", "black", "", "none", 4)
           }
 
