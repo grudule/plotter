@@ -27,7 +27,6 @@ class Plotter():
             step_yticks (flaot): step in y ticks 
             thickness_line (float): thickness of the line
             fig_size (tuple) : (length, width). Defaults (10,8)
-            color (str): type opf color you want your graph (applied on all plots)
         """
 
         self.title = title
@@ -74,7 +73,7 @@ class Plotter():
             line += 1
         
         if line > 1:
-            plt.legend(loc='upper left')
+            plt.legend(loc='best')
         
         plt.title(self.title, **self.title_font)
         self._change_axis()

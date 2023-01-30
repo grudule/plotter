@@ -9,8 +9,12 @@ import numpy as np
 # Possible markers for scatter : https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers
 # Possible fillstyle : https://matplotlib.org/3.2.2/gallery/lines_bars_and_markers/marker_fillstyle_reference.html
 
-x_data = np.linspace(0, np.pi, 100)
-y_data = {"valeur intensité": (np.cos(x_data)**2, "black", "", "full")}
+x = np.linspace(0, np.pi, 100)
+x_data = {"theorical":x
+          }
+y_data = {"valeur intensité": (np.cos(x_data)**2, "black", "", "full")
+          }
+
 Plotter("", "Graphique de la loi de Malus", x_data, y_data, x_axis_title="Angle relatif (rad)",
         y_axis_title="Intensité relative", name_file="hallo")
 
