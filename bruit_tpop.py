@@ -1,6 +1,8 @@
 import glob
 from plotter.plotter import Plotter
 import numpy as np
+import pandas as pd
+
 
 path = r"D:\drive\OneDrive - Université Laval\Cours laval\2. Année 2\H2023\travaux pratique optique\données bruit"
 csv_liste = glob.glob(path + r"\*.csv")
